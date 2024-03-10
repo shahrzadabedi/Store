@@ -41,13 +41,15 @@ public class Product : Entity
 
     public decimal GetDiscountedPrice() => Price * (1 - (Discount ?? 0) / 100);
 
-    public void UpdateInventory(int difference)
+    public void IncreaseInventory(int difference)
     {
         if (difference <= 0)
             throw new InventoryCountDifferenceInvalidException();
 
         InventoryCount += difference;
     }
+
+    public void DecreaseInventory() => InventoryCount -= 1;
 
     private static void HandleValidationResult(ValidationResult validationResult)
     {

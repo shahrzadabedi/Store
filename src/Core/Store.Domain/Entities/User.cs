@@ -13,6 +13,8 @@ public class User : Entity
     {
         Name = name;
     }
+
+    public void AddOrder(Order order) => _orders.Add(order);
 }
 
 

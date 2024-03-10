@@ -39,7 +39,7 @@ public class UpdateInventoryCountCommandHandler : IRequestHandler<UpdateInventor
                 return Result<bool>.Error(ProductErrors.NotFound);
             }
 
-            product.UpdateInventory(request.Difference);
+            product.IncreaseInventory(request.Difference);
 
             return Result<bool>.Success(true);
         }

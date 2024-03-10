@@ -4,6 +4,8 @@ namespace Store.Domain.Entities;
 
 public class Order : Entity
 {
+    private Order() { }
+
     public long ProductId { get; private set; }
 
     public Product Product { get; private set; }
@@ -13,6 +15,17 @@ public class Order : Entity
     public long BuyerId { get; private set; }
 
     public User Buyer { get; private set; }
+
+    public static Order Create(long productId, DateTime createDate)
+    {
+        var order = new Order()
+        {
+            ProductId = productId,
+            CreationDate = createDate
+        };
+
+        return order;
+    }
 }
 
 

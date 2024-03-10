@@ -28,4 +28,10 @@
     <ProjectReference Include="..\..\src\Core\Store.Application\Store.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="wwwroot\seed-data\users.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

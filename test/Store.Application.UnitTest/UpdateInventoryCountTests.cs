@@ -30,6 +30,7 @@ public class UpdateInventoryCountTests : TestDatabaseFixture
                 Difference = 50
             }, CancellationToken.None);
 
+        result.Result.IsError.Should().BeFalse();
         result.Result.Data.Should().Be(true);
 
         var afterProduct = await context.Products.FirstOrDefaultAsync(p => p.Id == 1, CancellationToken.None);
@@ -55,6 +56,7 @@ public class UpdateInventoryCountTests : TestDatabaseFixture
                 Difference = -50
             }, CancellationToken.None);
 
+        result.Result.IsError.Should().BeTrue();
         result.Result.Data.Should().Be(false);
         result.Result.Errors.Should().NotBeEmpty();
         result.Result.Errors.FirstOrDefault()!.HttpCode.Should().Be(HttpErrorCode.BadRequest);

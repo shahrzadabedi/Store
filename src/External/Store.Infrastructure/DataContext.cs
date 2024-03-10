@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Store.Domain.Entities;
+using Store.Infrastructure.Configurations;
 
 namespace Store.Infrastructure;
 
@@ -15,6 +16,8 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfiguration(new UserConfiguration());
+
         builder.Entity<Product>().HasIndex(p => p.Title)
             .IsUnique();
 

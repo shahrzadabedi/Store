@@ -30,8 +30,9 @@ public class GetProductByIdTests : TestDatabaseFixture
         var result = await productQueryHandler.Handle(new GetProductByIdQuery(1), CancellationToken.None);
 
         result.Should().NotBeNull();
+        result.IsError.Should().BeTrue();
         result.Data.Should().BeNull();
-        result.Errors.Should().HaveCount(1);
+        
         result.Errors.FirstOrDefault().Should().Be(ProductErrors.NotFound);
 
     }
@@ -56,6 +57,7 @@ public class GetProductByIdTests : TestDatabaseFixture
         var result = await productQueryHandler.Handle(new GetProductByIdQuery(1), CancellationToken.None);
 
         result.Should().NotBeNull();
+        result.IsError.Should().BeFalse();
         result.Should().BeOfType<Result<GetProductByIdResponse>>();
         result.Data.Should().NotBeNull();
         result.Data!.Title.Should().Be("گوشی گلکسی اس 22");

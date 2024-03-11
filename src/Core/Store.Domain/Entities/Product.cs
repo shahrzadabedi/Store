@@ -17,6 +17,8 @@ public class Product : Entity
 
     public int? Discount { get; private set; }
 
+    public decimal DiscountedPrice { get { return Price * (1 - (decimal)(Discount ?? 0) / 100); } }
+
     public static Product Create(string title, int inventoryCount, decimal price, int? discount)
     {
         var product = new Product()
@@ -54,7 +56,9 @@ public class Product : Entity
     private static void HandleValidationResult(ValidationResult validationResult)
     {
         var exception = new ProductNotValidException("Product is not valid");
+
         validationResult.Errors.ForEach(v => exception.ValidationErrors.Add(v.ErrorMessage));
+
         throw exception;
     }
 }

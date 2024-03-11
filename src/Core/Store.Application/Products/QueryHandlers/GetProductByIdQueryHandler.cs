@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Store.Application.Models;
 using Store.Application.Products.Dtos;
 using Store.Application.Products.Errors;
+using Store.Domain;
 using Store.Infrastructure;
 
 namespace Store.Application.Products.QueryHandlers;
@@ -18,15 +19,17 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
     private readonly IMapper _mapper;
     private readonly DataContext _context;
     private readonly IMemoryCache _memoryCache;
+    private readonly float _slidingExpirationInMinutes;
 
     private const string CacheKeyPrefix = "GetProduct";
 
     public GetProductByIdQueryHandler(IMapper mapper,
-        DataContext context, IMemoryCache memoryCache)
+        DataContext context, IMemoryCache memoryCache, CacheSettings cacheSettings)
     {
         _context = context;
         _mapper = mapper;
         _memoryCache = memoryCache;
+        _slidingExpirationInMinutes = cacheSettings.SlidingExpirationInMinutes;
     }
 
     public async Task<Result<GetProductByIdResponse>> Handle(GetProductByIdQuery request,
@@ -45,6 +48,8 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
 
             if (response == null)
                 return Result<GetProductByIdResponse>.Error(ProductErrors.NotFound);
+
+            SetProductInCache(cacheKey, response);
         }
 
         return Result<GetProductByIdResponse>.Success(response);
@@ -59,5 +64,13 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
         }
 
         return result;
+    }
+
+    private void SetProductInCache(string cacheKey, GetProductByIdResponse value)
+    {
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromMinutes(_slidingExpirationInMinutes));
+
+        _memoryCache.Set(cacheKey, value, cacheEntryOptions);
     }
 }

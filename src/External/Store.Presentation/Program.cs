@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Store.Application.Models;
 using Store.Application.Products.Dtos;
+using Store.Domain;
 using Store.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var cs = builder.Configuration.GetConnectionString("Default");
+
 builder.Services.AddDbContext<DataContext>(options => { options.UseSqlServer(cs); });
+
+builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection(nameof(CacheSettings)));
+builder.Services.AddSingleton(service => service.GetRequiredService<IOptions<CacheSettings>>().Value);
 
 builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(typeof(Program), typeof(BaseModel));

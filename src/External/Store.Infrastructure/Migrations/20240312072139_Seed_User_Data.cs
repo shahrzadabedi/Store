@@ -5,7 +5,7 @@
 namespace Store.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_User_Seed_Data : Migration
+    public partial class Seed_User_Data : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -7,7 +7,7 @@ public static class SeedHelper
     public static List<TEntity>? SeedData<TEntity>(string fileName)
     {
         var currentDirectory = Directory.GetCurrentDirectory();
-        const string path = "wwwroot\\seed-data";
+        const string path = "SeedData";
         var fullPath = Path.Combine(currentDirectory, path, fileName);
 
         using var reader = new StreamReader(fullPath);

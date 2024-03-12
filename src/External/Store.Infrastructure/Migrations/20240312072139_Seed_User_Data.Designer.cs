@@ -12,8 +12,8 @@ using Store.Infrastructure;
 namespace Store.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240310135508_Add_User_Seed_Data")]
-    partial class Add_User_Seed_Data
+    [Migration("20240312072139_Seed_User_Data")]
+    partial class Seed_User_Data
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

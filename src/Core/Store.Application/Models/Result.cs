@@ -13,30 +13,12 @@ public class Result<T>
     public IReadOnlyCollection<Error> Errors => _errors;
 
     private Result(T data) => Data = data;
-    private Result(IEnumerable<Error> errors) => AddErrorCore(errors);
 
-    public Result<T> SetSuccess(T data)
-    {
-        ClearErrorCore();
-        Data = data;
-        return this;
-    }
-    public Result<T> AddError(params Error[] codes)
-    {
-        AddErrorCore(codes);
-        return this;
-    }
-    public Result<T> AddError(IEnumerable<Error> codes)
-    {
-        AddErrorCore(codes);
-        return this;
-    }
+    private Result(IEnumerable<Error> errors) => AddErrorCore(errors);
 
     public static Result<T> Success(T data) => new(data);
 
     public static Result<T> Error(params Error[] codes) => new(codes);
-
-    public static Result<T> Error(IEnumerable<Error> codes) => new(codes);
 
     public static Result<T> Error(Exception exception) =>
         new(new[]
@@ -61,7 +43,5 @@ public class Result<T>
         });
 
     private void AddErrorCore(IEnumerable<Error> codes) => _errors.AddRange(codes);
-
-    private void ClearErrorCore() => _errors.Clear();
 }
 

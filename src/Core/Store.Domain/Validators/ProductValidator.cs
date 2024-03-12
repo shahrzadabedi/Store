@@ -20,11 +20,12 @@ public class ProductValidator : AbstractValidator<Product>
             .WithMessage("Price must be greater than 0");
 
         RuleFor(x => x.Discount)
-            .GreaterThan(0)
-            .WithMessage("Price must be greater than 0");
+            .Must(discount => discount == null || discount > 0)
+            .WithMessage("Discount must be greater than 0 if not null");
+
 
         RuleFor(x => x.InventoryCount)
             .GreaterThan(0)
-            .WithMessage("Price must be greater than 0");
+            .WithMessage("Inventory count must be greater than 0");
     }
 }

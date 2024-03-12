@@ -13,7 +13,7 @@ public sealed record AddProductCommand(
     string Title,
     int InventoryCount,
     decimal Price,
-    int Discount
+    int? Discount
 ) : IRequest<Result<bool>>;
 
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Result<bool>>

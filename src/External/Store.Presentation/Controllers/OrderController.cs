@@ -8,6 +8,7 @@ namespace Store.Presentation.Controllers;
 public class OrderController : BaseController
 {
     [HttpPost]
+    [Route("buy")]
     public async Task<ActionResult<bool>> Buy(BuyProductRequest request, CancellationToken cancellationToken = default)
     {
         var command = Mapper.Map<BuyProductCommand>(request);
